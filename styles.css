@@ -1,0 +1,446 @@
+/* =================================================================
+   ROMonkey — styles.css
+   ================================================================= */
+
+/* ---- COLORS + FONT ---------------------------------------------- */
+:root {
+  --bg: #000000;
+  --screen: #05050f;
+  --neon: #2f6bff;        /* frame + divider */
+  --pink: #ff3fa4;        /* links (footer + sections), "ROM" */
+  --yellow: #ffe14d;      /* main text */
+  --cyan: #29d3ff;        /* secondary text */
+  --red: #ff3b3b;         /* footer warning */
+  --font: "Press Start 2P", "Courier New", monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+  background: var(--bg);
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--yellow);
+  font-family: var(--font);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  /* faint CRT scanlines over everything */
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0 2px,
+    transparent 2px 4px
+  );
+}
+
+/* Pixel art is never smoothed, at any size. */
+.pixel,
+img {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+}
+
+.cabinet {
+  width: 100%;
+  max-width: 1100px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---- HEADER ------------------------------------------------------- */
+.marquee {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  animation: power-on 0.9s steps(6) both;
+}
+
+/* Square-cornered double neon line around the logo and name. */
+.marquee__box {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 32px 18px 20px;
+  border: 4px solid var(--neon);
+  box-shadow:
+    inset 0 0 0 4px var(--bg),
+    inset 0 0 0 8px var(--neon),
+    0 0 18px color-mix(in srgb, var(--neon) 55%, transparent);
+}
+
+/* logo.png is drawn at its display size (176x184), so it stays sharp.
+   To resize it, change LOGO_SCALE in pixelart/make_art.py instead of
+   this width, otherwise it gets blurry/uneven. */
+.marquee__logo {
+  display: block;
+  width: 176px;
+  height: auto;
+  max-width: 100%;
+  animation: monkey-bob 1.6s steps(2) infinite;
+}
+
+.marquee__name {
+  font-size: 32px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.marquee__rom {
+  color: var(--pink);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--pink) 60%, transparent);
+}
+
+.marquee__monkey {
+  color: var(--yellow);
+  text-shadow: 0 0 14px color-mix(in srgb, var(--yellow) 55%, transparent);
+}
+
+.marquee__tagline {
+  font-size: 12px;
+  line-height: 1.8;
+  color: var(--cyan);
+  text-align: center;
+  text-shadow: 0 0 10px color-mix(in srgb, var(--cyan) 55%, transparent);
+}
+
+/* ---- DIVIDER (full width of the page) ----------------------------- */
+.divider {
+  border: 0;
+  height: 4px;
+  width: 100vw;
+  margin: 18px 0 34px;
+  background: var(--neon);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--neon) 70%, transparent);
+}
+
+/* ---- BUTTONS -------------------------------------------------------- */
+/* One centered row; wraps onto more rows by itself on narrow screens.
+   Button images are drawn at their display size (see pixelart/make_art.py). */
+.buttons {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 20px 28px;
+}
+
+.pixel-btn {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: 0;
+  transition: transform 0.08s steps(2), filter 0.12s steps(2);
+}
+
+.pixel-btn img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.pixel-btn:hover {
+  transform: translate(-2px, -2px);
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--yellow) 70%, transparent));
+}
+
+.pixel-btn:active {
+  transform: translate(2px, 2px);
+}
+
+/* The open section's button stays pressed in, with a pink glow. */
+.pixel-btn[aria-expanded="true"] {
+  filter: drop-shadow(0 0 4px var(--pink)) drop-shadow(0 0 10px var(--pink));
+  transform: translate(2px, 2px);
+}
+
+.pixel-btn:focus-visible {
+  outline: 4px dashed var(--pink);
+  outline-offset: 6px;
+}
+
+/* "PRESS A BUTTON" blinks until something is opened. */
+.press-start {
+  margin-top: 34px;
+  font-size: 10px;
+  color: var(--pink);
+  text-transform: uppercase;
+  animation: blink 1.1s steps(1) infinite;
+}
+
+.press-start.is-gone {
+  visibility: hidden;
+}
+
+/* ---- SECTIONS ------------------------------------------------------- */
+.panels {
+  width: 100%;
+  max-width: 820px;
+  display: grid;
+}
+
+/* All panels sit in the same grid cell, so switching cross-fades in
+   place. Each slides open/closed by animating its row height. */
+.panel {
+  grid-area: 1 / 1;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.45s ease, opacity 0.3s ease;
+}
+
+.panel.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.panel__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panel__screen {
+  margin: 8px 0 12px;
+  padding: 30px 36px;
+  border: 4px solid var(--neon);
+  background: var(--screen);
+  box-shadow: inset 0 0 0 4px var(--bg), inset 0 0 0 6px color-mix(in srgb, var(--neon) 45%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+}
+
+.panel__title {
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--pink);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.panel__text {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--cyan);
+}
+
+/* Links inside the sections: same pink as the footer links. */
+.panel__screen a:not(.cta) {
+  color: var(--pink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.panel__screen a:not(.cta):hover {
+  color: var(--yellow);
+}
+
+.panel__screen a:not(.cta):focus-visible {
+  outline: 2px dashed var(--cyan);
+  outline-offset: 3px;
+}
+
+/* Features list: each step starts hidden; script.js adds .is-revealed
+   one at a time so they pop in like a high-score table. */
+.steps {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+/* Plain block (not a grid), so text and links in one line flow
+   together normally. */
+.step {
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--yellow);
+  display: block;
+  opacity: 0;
+  transform: translateX(-14px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.step.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* History: one block per version, one line per <li>. */
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  width: 100%;
+}
+
+.history__title {
+  font-size: 12px;
+  font-weight: normal;
+  color: var(--yellow);
+  margin-bottom: 12px;
+}
+
+.history__list,
+.link-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history__list li,
+.link-list li {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--cyan);
+  /* wrapped lines line up under the text, not under the "- " */
+  padding-left: 2em;
+  text-indent: -2em;
+}
+
+.history__list li::before {
+  content: "- ";
+  color: var(--pink);
+}
+
+.link-list li::before {
+  content: "> ";
+  color: var(--pink);
+}
+
+/* Download / manual link: a chunky arcade-style link. */
+.cta {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--bg);
+  background: var(--yellow);
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 14px 18px;
+  border: 4px solid var(--yellow);
+  box-shadow: 4px 4px 0 var(--pink);
+  transition: transform 0.08s steps(2), box-shadow 0.08s steps(2);
+}
+
+.cta:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--pink);
+}
+
+.cta:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--pink);
+}
+
+.cta:focus-visible {
+  outline: 4px dashed var(--cyan);
+  outline-offset: 6px;
+}
+
+/* ---- FOOTER --------------------------------------------------------- */
+.site-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.site-footer__warning {
+  color: var(--red);
+  font-size: 9px;
+  line-height: 1.7;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+
+.site-footer__credit,
+.site-footer__copyright {
+  font-size: 8px;
+  line-height: 1.9;
+  letter-spacing: 0.3px;
+  color: color-mix(in srgb, var(--cyan) 45%, var(--yellow));
+}
+
+.site-footer__copyright {
+  margin-top: 10px;
+}
+
+.site-footer a {
+  color: var(--pink);
+}
+
+/* ---- ANIMATIONS ------------------------------------------------------ */
+@keyframes blink {
+  0%   { opacity: 1; }
+  50%  { opacity: 0; }
+}
+
+/* Two-frame bob, like an idle sprite. */
+@keyframes monkey-bob {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-4px); }
+}
+
+/* The header flickers on like a CRT warming up. */
+@keyframes power-on {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  45%  { opacity: 0.2; }
+  60%  { opacity: 1; }
+  75%  { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* ---- SMALL SCREENS -------------------------------------------------- */
+@media (max-width: 640px) {
+  .marquee__box {
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px;
+  }
+
+  .marquee__name {
+    font-size: 26px;
+  }
+
+  .marquee__tagline {
+    font-size: 10px;
+  }
+
+  .panel__screen {
+    padding: 22px 18px;
+  }
+
+  .step {
+    font-size: 10px;
+  }
+}
+
+/* People who turn off animations get everything instantly. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

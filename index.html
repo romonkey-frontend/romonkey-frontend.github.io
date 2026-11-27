@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!--
+  ROMonkey website (one page, no build step: just open index.html).
+
+  THINGS YOU'LL WANT TO EDIT (search this file for "EDIT"):
+    1. The Features steps .......... search "EDIT: FEATURE STEPS"
+    2. The download link ........... search "EDIT: DOWNLOAD LINK"
+    3. The manual link ............. search "EDIT: MANUAL LINK"
+    4. The History section ......... search "EDIT: HISTORY"
+    5. The Links section ........... search "EDIT: LINKS"
+    6. Footer lines ................ search "EDIT: FOOTER"
+
+  The pixel-art images are in images/. To change the size of the
+  logo or buttons, edit the numbers at the top of pixelart/make_art.py
+  and run:  python3 pixelart/make_art.py
+  (It redraws them pixel-perfect, so they never go blurry.)
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROMonkey</title>
+  <meta name="description" content="ROMonkey, a MAME frontend." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+</head>
+
+<body>
+  <main class="cabinet">
+
+    <!-- ============ HEADER: logo + name in a box, tagline under it ============ -->
+    <header class="marquee">
+      <div class="marquee__box">
+        <img class="marquee__logo pixel" src="images/logo.png" width="176" height="184"
+             alt="ROMonkey logo: a pixel-art monkey head sticking its tongue out" />
+        <h1 class="marquee__name"><span class="marquee__rom">ROM</span><span class="marquee__monkey">onkey</span></h1>
+      </div>
+      <p class="marquee__tagline">All apes are silent when ROMonkey appears!</p>
+    </header>
+
+    <hr class="divider" />
+
+    <!-- ============ THE FIVE BUTTONS ============
+         data-panel must match the id of a section below. -->
+    <nav class="buttons" aria-label="Sections">
+      <button class="pixel-btn" type="button" data-panel="features" aria-expanded="false" aria-controls="features">
+        <img class="pixel" src="images/btn-features.png" width="174" height="42" alt="Features" />
+      </button>
+      <button class="pixel-btn" type="button" data-panel="download" aria-expanded="false" aria-controls="download">
+        <img class="pixel" src="images/btn-download.png" width="174" height="42" alt="Download" />
+      </button>
+      <button class="pixel-btn" type="button" data-panel="manual" aria-expanded="false" aria-controls="manual">
+        <img class="pixel" src="images/btn-manual.png" width="150" height="42" alt="Manual" />
+      </button>
+      <button class="pixel-btn" type="button" data-panel="history" aria-expanded="false" aria-controls="history">
+        <img class="pixel" src="images/btn-history.png" width="162" height="42" alt="History" />
+      </button>
+      <button class="pixel-btn" type="button" data-panel="links" aria-expanded="false" aria-controls="links">
+        <img class="pixel" src="images/btn-links.png" width="138" height="42" alt="Links" />
+      </button>
+    </nav>
+
+    <p class="press-start" id="press-start" aria-hidden="true">Press a button</p>
+
+    <!-- ============ SECTIONS (one open at a time) ============ -->
+    <div class="panels">
+
+      <!-- ---------- FEATURES ---------- -->
+      <section class="panel" id="features" aria-label="Features" inert>
+        <div class="panel__inner">
+          <div class="panel__screen">
+            <h2 class="panel__title">Features</h2>
+
+            <!-- EDIT: FEATURE STEPS
+                 One <li class="step"> per line. They animate in one at a
+                 time, top to bottom. Add or remove <li>s freely.
+                 Links inside a line are fine, e.g.
+                 <li class="step">Some text <a href="https://...">a link</a> more text</li> -->
+            <ol class="steps">
+			
+			  <li class="step">[CORE ARCHITECTURE]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Database-driven GUI</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Interchangeable database & config file between machines and operating systems</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Lazy loading: instantly opening of huge game lists</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Native Windows/macOS GUI code displaying 1000s of games fluently, even on old CPUs</li>
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Ultra performance: 100 ms boot time (any CPU), 15 s MAME import data (modern PC/Mac)</li>
+            
+			
+			  <li class="step">[MAIN WINDOW]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Layout: toolbar, folder tree, sortable machine list, software list and a details pane</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; List options</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Customizable columns</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Icons for machine properties</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Favorites, play counts and last played time</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Fonts choice</li>
+			  
+			  
+			  <li class="step">[FOLDER TREE BUILT-IN FOLDERS]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; General: All Machines, Advanced Search results, Collections.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Personal: Favorites, Recently Played, Played at least once, Custom Game Options.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; ROM state: Available/Unavailable, a ROM Audit group (Complete, Present, Incomplete, Bad, Missing, Not scanned), Dumping Status, Requires CHD.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Structure and status: Parents, Clones, Prototype, Mechanical/Non-mechanical, Driver Status, Save State.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Hardware: CPU, Audio chip, Stereo, Samples, Free Play, BIOS (with recursive parent/clone membership), Screen Type, Screens, Orientation, Resolution, Refresh Rate, Controls, Joysticks (by way count/type), Players</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Metadata: Manufacturer, Year, Source File, Arcade Systems, Arcade cabinets by decade (70s, 80s, 90s, 2000s) and by game genre per decade</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Software: Use Software List and Software Lists.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; INI Files.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Folder actions: Audit, Pie Chart and Collection operations</li>
+			  
+			  
+			  <li class="step">[ADVANCED SEARCH]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Machines and software</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Three syntaxes can be mixed freely: Plain words and quoted phrases, Natural-language keywords andSQL-like field expressions</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Text search inside info files: history:, mameinfo: and mameversion:</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Boolean flags</li>
+			  
+			  
+			  <li class="step">[ROM AUDITING]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Quick Scan checks file names only. Scan ROMs verifies CRCs and sizes.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; ZIP and loose-folder support</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Full lookup chain: clone → parent → BIOS, plus device ROMs and default-BIOS handling.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; CHD checking</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Results are Complete, Present (not CRC-verified), Incomplete, Bad and Missing.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Scan cache</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Scan targets: machines, software lists or both, with a per-software-list selection.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Audit scopes: the selected machine, the selected software, a whole folder, or the whole software pane.</li>
+			  
+			  
+			  <li class="step">[DETAILS PANE TABS]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Info: a full machine summary</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Files: ROMs, CHDs and Samples with audit state per file</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; History: history.xml and .dat content (history, mameinfo and similar)</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Images: artwork viewer</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Custom: a configurable tab with an image half and a text half, each choosable</li>
+			  
+			  
+			  <li class="step">[SOFTWARE BROWSER]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Details pane: Info, Files, History, Images (Snapshots, Titles, Covers, Manuals) and Custom.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Running software: it works out which machines can run the list: “Run on which machine?”</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Collections and ROM Audit for software items</li>
+			  
+			  
+			  <li class="step">[LAUNCHING GAMES]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Game Options can be set globally (Default Game Options) or per machine (Game Options)</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; A global extra-args setting and a “Custom Game Options” folder.</li>
+			  
+			  
+			  <li class="step">[METADATA IMPORT]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Reads .ini category files from a configured folder and .dat and history.xml files from another.</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; These power the genre folders, Game Genre and Machine Type columns, History tab, and history:/mameinfo: searches.</li>
+			  
+			  
+			  <li class="step">[SETTINGS AND UI CUSTOMIZATION]</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Settings dialog</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Interface Options</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Themes</li>
+			  <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;&ast; Context menus: right-click on machines, folders and software items.</li>
+				
+              <li class="step">Folder list with advanced built-in folder filters and INI file support:</li>
+              <li class="step"><a href="https://www.arcade-history.com/index.php?page=download">Machine Type.ini</a></li>
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://nplayers.arcadebelgium.be/">Multiplayer.ini</a></li> 
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.progettosnaps.net/series/">series.ini</a></li> 
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.progettosnaps.net/catver/">catlist.ini</a></li> 
+              <li class="step">Gaming History's <a href="https://www.arcade-history.com/index.php?page=download">history.xml</a> support</li>
+              <li class="step">DAT file support:</li> 
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.progettosnaps.net/command/">command.dat</a></li>       
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.progettosnaps.net/gameinit/">gameinit.dat</a></li> 
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://mashinfo.github.io/mameinfo/">mameinfo.dat</a></li> 
+              <li class="step">&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://www.progettosnaps.net/messinfo/">messinfo.dat</a></li> 
+              <li class="step">Snapshots support for machines and software lists: <a href="https://www.progettosnaps.net/snapshots/">snapshots</a></li>
+              <li class="step">Cabinet images support: <a href="https://www.progettosnaps.net/cabinets/">cabinets</a></li>
+            </ol>
+            <!-- /EDIT: FEATURE STEPS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- DOWNLOAD ---------- -->
+      <section class="panel" id="download" aria-label="Download" inert>
+        <div class="panel__inner">
+          <div class="panel__screen">
+            <h2 class="panel__title">Download</h2>
+            <p class="panel__text">Grab the latest ROMonkey build.</p>
+
+            <!-- EDIT: DOWNLOAD LINK
+                 Put the real download address in href="..." below. -->
+            <a class="cta" href="https://www.mediafire.com/file/9f5u4pmg6muipbn/ROMonkey.app.zip/file" target="_blank" rel="noopener">&#9660; Download ROMonkey</a>
+            <!-- /EDIT: DOWNLOAD LINK -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- MANUAL ---------- -->
+      <section class="panel" id="manual" aria-label="Manual" inert>
+        <div class="panel__inner">
+          <div class="panel__screen">
+            <h2 class="panel__title">Manual</h2>
+            <p class="panel__text">Everything you need to know, in one place.</p>
+
+            <!-- EDIT: MANUAL LINK
+                 Put the real manual address in href="..." below. -->
+            <a class="cta" href="#REPLACE-WITH-MANUAL-URL">&#9654; Read the manual</a>
+            <!-- /EDIT: MANUAL LINK -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- HISTORY ---------- -->
+      <section class="panel" id="history" aria-label="History" inert>
+        <div class="panel__inner">
+          <div class="panel__screen">
+            <h2 class="panel__title">History</h2>
+
+            <!-- EDIT: HISTORY
+                 Every line is its own <li>, and each one starts on a new
+                 line automatically: no <br> needed. The "- " in front of
+                 each line is added automatically too.
+
+                 To add a line to a version: copy any <li>...</li> line
+                 and change the text.
+
+                 To add a new version: copy this whole block and paste it
+                 at the TOP of the list (newest first):
+
+                 <div class="history__version">
+                   <h3 class="history__title">v1.4</h3>
+                   <ul class="history__list">
+                     <li>first change</li>
+                     <li>second change</li>
+                   </ul>
+                 </div>
+
+                 Links work inside a line too:
+                 <li>see <a href="https://...">this page</a></li>
+            -->
+            <div class="history">
+
+              <div class="history__version">
+                <h3 class="history__title">v1.3</h3>
+                <ul class="history__list">
+                  <li>"Files" tabpage: colors for ROM/CHD/Samples Audit</li>
+                  <li>"Software": Audit button</li>
+                  <li>Folder pie chart</li>
+                  <li>Software Browser: added Details Pane</li>
+                  <li>bug fixes and code optimizations</li>
+                </ul>
+              </div>
+
+              <div class="history__version">
+                <h3 class="history__title">v1.2</h3>
+                <ul class="history__list">
+                  <li>"Collections": machines and software lists</li>
+                  <li>"Arcade Systems" folder</li>
+                  <li>"Info" tabpage: added Game Genre, Machine Type, Arcade and Arcade System</li>
+                  <li>"Arcade cabinets by decade" folders for parents and parents/clones</li>
+                  <li>"Arcade cabinets by game genre" folders for parents and parents/clones</li>
+                  <li>"Free Play" folder</li>
+                  <li>"Prototype" folder</li>
+                  <li>"Joysticks" folder</li>
+                  <li>"Joystick Type" folder</li>
+                  <li>bug fixes and code optimizations</li>
+                </ul>
+              </div>
+
+              <div class="history__version">
+                <h3 class="history__title">v1.1</h3>
+                <ul class="history__list">
+                  <li>advanced machine search</li>
+                  <li>advanced software list search</li>
+                  <li>"Custom" tabpage</li>
+                  <li>bug fixes and code optimizations</li>
+                </ul>
+              </div>
+
+              <div class="history__version">
+                <h3 class="history__title">v1.0</h3>
+                <ul class="history__list">
+                  <li>initial version</li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /EDIT: HISTORY -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------- LINKS ---------- -->
+      <section class="panel" id="links" aria-label="Links" inert>
+        <div class="panel__inner">
+          <div class="panel__screen">
+            <h2 class="panel__title">Links</h2>
+
+            <!-- EDIT: LINKS
+                 One <li> per link. Copy a line, then change the address
+                 in href="..." and the label text.
+                   <li><a href="https://example.com" target="_blank" rel="noopener">Label</a>: short description</li>
+                 The three lines below are PLACEHOLDERS: replace or delete them. -->
+            <ul class="link-list">
+              <li><a href="#REPLACE-WITH-URL" target="_blank" rel="noopener">[Placeholder link 1]</a>: [short description]</li>
+              <li><a href="#REPLACE-WITH-URL" target="_blank" rel="noopener">[Placeholder link 2]</a>: [short description]</li>
+              <li><a href="#REPLACE-WITH-URL" target="_blank" rel="noopener">[Placeholder link 3]</a>: [short description]</li>
+            </ul>
+            <!-- /EDIT: LINKS -->
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+  
+  <hr class="divider" />
+
+  <!-- ============ FOOTER ============ -->
+  <!-- EDIT: FOOTER (all lines below are plain text, change as you like) -->
+  <footer class="site-footer">
+    <p class="site-footer__warning">Legal notice: No copyrighted game ROMs or game materials are hosted on this website!!!</p>
+    <p class="site-footer__warning">ROMonkey is not affiliated with MAME in any way.</p>
+    <p class="site-footer__credit">ROMonkey is a freeware frontend for <a href="https://www.mamedev.org/" target="_blank" rel="noopener">MAME</a></p>
+    <p class="site-footer__copyright">&copy; 2026 ROMonkey</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
